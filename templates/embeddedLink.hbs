@@ -1,0 +1,47 @@
+<div class="embeddedLink-inner component-inner">
+    {{> component this}}
+    <div class="component-widget embeddedLink-widget">
+
+        <div class="embeddedLink-description-container">
+            <a href="#" class="embeddedLink-graphic-pin component-item-text-color {{#if _isVisited}}visited{{/if}}">
+                <div class="embeddedLink-graphic-pin-icon component-item-color icon icon-sound"></div>
+            </a>
+            <div class="embeddedLink-description">
+                {{#if _page.title}}
+                    <div class="page-title">{{_page.title}}</div>
+                {{/if}}
+                <div class="page-body">{{_page.body}}</div>
+            </div>
+            <div class="embeddedLink-audio-container">
+                {{#if _page.audioSrc}}
+                    <div class="embeddedLink-item-audio">
+                        <audio preload="none">
+                            {{#each _page.audioTypes}}
+                                <source src="{{../_page.audioSrc}}.{{type}}" type="{{codec}}">
+                            {{/each}}
+                        </audio>
+                    </div>
+                {{/if}}
+            </div>
+        </div>
+
+        <div class="embeddedLink-iframe-holder">
+            {{#if _isImage}}
+                <img class="embeddedLink-image" src="{{_source}}">
+            {{else}}
+                <iframe scrolling="no" class="embeddedLink-iframe" src="{{_source}}">
+                </iframe>
+            {{/if}}
+            <div class="embeddedLink-zoomin-button icon icon-popup"></div>
+            <div class="embeddedLink-lightBox-popup-container modal">
+                {{#if _isImage}}
+                    <img class="embeddedLink-lightBox-image" src="{{_source}}">
+
+                {{else}}
+                    <iframe scrolling="no" class="embeddedLink-lightBox-popup"  src="{{_source}}">
+                    </iframe>
+                {{/if}}
+            </div>
+        </div>
+    </div>
+</div>
