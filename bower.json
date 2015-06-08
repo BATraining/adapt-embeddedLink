@@ -1,0 +1,17 @@
+{
+  "name": "adapt-embeddedLink",
+  "version": "1.0.0",
+  "homepage": "https://github.com/BATraining/adapt-embeddedLink",
+  "author": [
+    "Amruta Thakur <amruta.thakur@exultcorp.com>"
+  ],
+  "displayName" : "Embedded Link",
+  "component" : "embeddedLink",
+  "description": "A basic Adapt Embedded Link component.",
+  "main": "/js/adapt-embeddedLink.js",
+  "keywords": [
+    "adapt-plugin",
+    "adapt-component"
+  ],
+  "license": "GPLv3"
+}
