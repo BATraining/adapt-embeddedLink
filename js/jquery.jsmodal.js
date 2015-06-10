@@ -137,7 +137,17 @@ $.fn.modal = function(options) {
      */
     function closeModal(modal, options) {
       modal.removeClass('modal-show');
+
+      //Remove the existing overlay on close click
       $('.modal-overlay').remove();
+
+      //Pause all the videos
+      var videoPause=$("video");
+      for(var i=0;i<videoPause.length;i++){
+        videoPause[i].pause();
+      }
+
+        $(".embeddedLink-lightBox-iframe-parent").css({'overflow':'hidden' , '-webkit-overflow-scrolling':'none'})
       // clean up effect
       if (typeof options.effect === 'string'){
         setTimeout(function(){
