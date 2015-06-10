@@ -27,21 +27,45 @@
 
         <div class="embeddedLink-iframe-holder">
             {{#if _isImage}}
-                <img class="embeddedLink-image" src="{{_source}}">
+            <img class="embeddedLink-image" src="{{_source}}">
             {{else}}
-                <iframe scrolling="no" class="embeddedLink-iframe" src="{{_source}}">
-                </iframe>
-            {{/if}}
-            <div class="embeddedLink-zoomin-button icon icon-popup"></div>
-            <div class="embeddedLink-lightBox-popup-container modal">
-                {{#if _isImage}}
-                    <img class="embeddedLink-lightBox-image" src="{{_source}}">
-
+                {{#if _isVideo}}
+                <video class="embeddedLink-video" controls>
+                    <source src="{{_source}}" type="video/mp4">
+                    <source src="{{_source}}" type="video/ogg">
+                </video>
                 {{else}}
-                    <iframe scrolling="no" class="embeddedLink-lightBox-popup"  src="{{_source}}">
-                    </iframe>
+                <iframe scrolling="no" class="embeddedLink-iframe" src="{{_source}}" style="width:{{_width}};height:{{_height}}">
+                </iframe>
                 {{/if}}
-            </div>
+
+
+            {{/if}}
+
+            {{#if _isLightBox}}
+                <div class="embeddedLink-lightBox-popup-container modal">
+                    {{#if _isVideo}}
+                        <video class="embeddedLink-lightBox-video" controls>
+                            <source src="{{_source}}" type="video/mp4">
+                            <source src="{{_source}}" type="video/ogg">
+                        </video>
+                    {{else}}
+                        <div class="embeddedLink-lightBox-iframe-parent">
+                        <iframe scrolling="no" class="embeddedLink-lightBox-popup" style="height:{{_height}}px" src="{{_source}}">
+                        </iframe>
+                        </div>
+                    {{/if}}
+                </div>
+            {{/if}}
+
+
         </div>
+
+        {{#if _isImage}}
+        {{else}}
+            <div class="embeddedLink-zoomin-button">
+                <i class="icon icon-popup"></i>
+            </div>
+        {{/if}}
     </div>
 </div>
