@@ -15,12 +15,15 @@ define(function(require) {
 
         events: {
             'click .embeddedLink-zoomin-button':'onClickZoomInButton',
-            'click .embeddedLink-graphic-pin': 'onClickAudioButton'
+            'click .embeddedLink-graphic-pin': 'onClickAudioButton',
+            'click .embeddedLink-image':'onClickImage'
         },
 
         preRender: function() {},
 
         postRender: function() {
+            //alert(Adapt.device.browser);
+
             this.$('.embeddedLink-description').on('inview', _.bind(this.inview, this));
             var $self = this;
             this.$('.embeddedLink-iframe').ready(function() {
@@ -139,7 +142,31 @@ define(function(require) {
 
         onClickZoomInButton:function(event){
             event.preventDefault();
-            this.$('.embeddedLink-lightBox-popup-container').modal();
+            var browser = Adapt.device.browser;
+            if(browser == 'ipad'){
+                this.$(".embeddedLink-lightBox-iframe-parent").css({'overflow':'auto' , '-webkit-overflow-scrolling':'touch'});
+            }
+            var isLightBox=this.model.get("_isLightBox");
+            var source = this.model.get("_source");
+
+            //Pause all the videos on popout button clicked
+            var videoPause=$("video");
+            for(var i=0;i<videoPause.length;i++){
+                videoPause[i].pause();
+            }
+
+            if(isLightBox){
+                this.$('.embeddedLink-lightBox-popup-container').modal();
+            }
+            else{
+                window.open(source,'_blank','width=1024,height=768,left=100,top=100');
+            }
+        },
+        onClickImage:function(event){
+            event.preventDefault();
+
+            var imageSource = this.model.get("_imageSource");
+            window.open(imageSource,'_blank','width=1024,height=768,left=100,top=100');
         }
 
     });
