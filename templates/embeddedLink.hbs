@@ -35,13 +35,10 @@
                     <source src="{{_source}}" type="video/ogg">
                 </video>
                 {{else}}
-                <iframe scrolling="no" class="embeddedLink-iframe" src="{{_source}}" style="width:{{_width}};height:{{_height}}">
+                <iframe scrolling="no" class="embeddedLink-iframe" src="{{_source}}" style="height:{{_height}}px">
                 </iframe>
                 {{/if}}
-
-
             {{/if}}
-
             {{#if _isLightBox}}
                 <div class="embeddedLink-lightBox-popup-container modal">
                     {{#if _isVideo}}
@@ -51,14 +48,12 @@
                         </video>
                     {{else}}
                         <div class="embeddedLink-lightBox-iframe-parent">
-                        <iframe scrolling="no" class="embeddedLink-lightBox-popup" style="height:{{_height}}px" src="{{_source}}">
+                        <iframe scrolling="no" class="embeddedLink-lightBox-popup" src="{{_source}}">
                         </iframe>
                         </div>
                     {{/if}}
                 </div>
             {{/if}}
-
-
         </div>
 
         {{#if _isImage}}
