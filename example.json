@@ -22,44 +22,12 @@
         ]
     },
     "_source": "course/en/images/CS1_CS3_4911_003.jpg",
-    "_isImage":true,
-    "_isVideo":false,
     "_imageSource":"course/en/embed/Wikipedia.html",
     "_pageLevelProgress": {
         "_isEnabled": true
     }
 },
 
-//If there is video
-
-{
-    "_id":"c-10",
-    "_parentId":"b-05",
-    "_type":"component",
-    "_component":"embeddedLink",
-    "_classes":"",
-    "_layout":"full",
-    "title":"",
-    "body": "",
-    "_page":{
-        "title":"",
-        "body":"With the advent of modern browsers, frameworks, developments in HTML 5 and responsive design approaches we're now able to create engaging learning that will work, regardless of the device being used.",
-        "audioSrc": "course/en/audio/hot-graphic1",
-        "audioTypes": [
-            {
-            "type": "mp3",
-            "codec": "audio/mpeg"
-            }
-        ]
-    },
-    "_source": "course/en/video/big_buck_bunny.mp4",
-    "_isImage":false,
-    "_isVideo":true,
-    "_isLightBox":true
-    "_pageLevelProgress": {
-        "_isEnabled": true
-    }
-}
 
 //other Media
 
@@ -83,9 +51,9 @@
         }
     ]
     },
+
+    "_height":800,
     "_source": "course/en/pdf/adapt-framework-prototypes-buttons.pdf",
-    "_isImage":false,
-    "_isVideo":false,
     "_isLightBox":false
     "_pageLevelProgress": {
         "_isEnabled": true

@@ -19,7 +19,23 @@ define(function(require) {
             'click .embeddedLink-image':'onClickImage'
         },
 
-        preRender: function() {},
+        preRender: function() {
+            var videoExtensionsList = ["mp4","ogv","ogg"];
+            var imageExtensionsList = ["jpg","png","jpeg","svg","gif","bmp"];
+            var extension = this.model.get("_source").split(".")[1];
+
+            _.each(videoExtensionsList, function(videoExtension,index){
+               if(extension == videoExtension){
+                   this.model.set("_isVideo",true);
+               }
+            },this);
+            _.each(imageExtensionsList, function(imageExtension,index){
+                if(extension == imageExtension){
+                    this.model.set("_isImage",true);
+                }
+            },this);
+
+        },
 
         postRender: function() {
             //alert(Adapt.device.browser);
