@@ -66,17 +66,9 @@ Codec of audio
 
 This is source of media which will be displayed in iFrame
 
-####_isImage
-
-This can be `true` if _source has a image else `false`
-
 ####_imageSource
 
 This can have url for any other link which will appears on click of image
-
-####_isVideo
-
-This can be `true` if _source has a video else `false`
 
 ####_isLightBox
 
