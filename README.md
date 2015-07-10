@@ -62,6 +62,10 @@ Type of audio
 
 Codec of audio
 
+####_posterImage
+
+This is the source of the image which will appears as poster image on mobile.
+
 ####_source
 
 This is source of media which will be displayed in iFrame
