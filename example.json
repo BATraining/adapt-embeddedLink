@@ -21,6 +21,7 @@
             }
         ]
     },
+    "_posterImage":"course/en/images/big_buck_bunny-small.jpg",
     "_source": "course/en/images/CS1_CS3_4911_003.jpg",
     "_imageSource":"course/en/embed/Wikipedia.html",
     "_pageLevelProgress": {
@@ -41,18 +42,18 @@
     "title":"",
     "body": "",
     "_page":{
-    "title":"",
-    "body":"With the advent of modern browsers, frameworks, developments in HTML 5 and responsive design approaches we're now able to create engaging learning that will work, regardless of the device being used.",
-    "audioSrc": "course/en/audio/hot-graphic1",
-    "audioTypes": [
-        {
-            "type": "mp3",
-            "codec": "audio/mpeg"
-        }
-    ]
+        "title":"",
+        "body":"With the advent of modern browsers, frameworks, developments in HTML 5 and responsive design approaches we're now able to create engaging learning that will work, regardless of the device being used.",
+        "audioSrc": "course/en/audio/hot-graphic1",
+        "audioTypes": [
+            {
+                "type": "mp3",
+                "codec": "audio/mpeg"
+            }
+        ]
     },
-
     "_height":800,
+    "_posterImage":"course/en/images/big_buck_bunny-small.jpg",
     "_source": "course/en/pdf/adapt-framework-prototypes-buttons.pdf",
     "_isLightBox":false
     "_pageLevelProgress": {

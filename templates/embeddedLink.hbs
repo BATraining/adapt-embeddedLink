@@ -35,6 +35,7 @@
                     <source src="{{_source}}" type="video/ogg">
                 </video>
                 {{else}}
+                <img class="embeddedLink-iframe-posterImage" src="{{_posterImage}}">
                 <iframe scrolling="no" class="embeddedLink-iframe" src="{{_source}}" style="height:{{_height}}px">
                 </iframe>
                 {{/if}}
