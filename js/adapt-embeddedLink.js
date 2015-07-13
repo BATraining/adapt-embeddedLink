@@ -33,7 +33,6 @@ define(function(require) {
 
         preRender: function() {
             this.initialSetUp();
-
         },
 
         initialSetUp:function(){
@@ -54,13 +53,13 @@ define(function(require) {
         },
 
         postRender: function() {
-            //alert(Adapt.device.browser);
             this.listenTo(Adapt,'device:changed',this.resizeDevice,this);
+
+            if(Adapt.device.screenSize != 'large'){
+                this.$('.embeddedLink-iframe-holder').on('inview', _.bind(this.inviewMobile, this));
+            }
             this.$('.embeddedLink-description').on('inview', _.bind(this.inview, this));
-            var $self = this;
-            this.$('.embeddedLink-iframe').ready(function() {
-                $self.setReadyStatus();
-            });
+            this.checkReadyStatus();
 
             if($('html').hasClass('ie8')) {
                 var audioObject=new MediaElementPlayer(this.$('audio')[0]);
@@ -71,10 +70,37 @@ define(function(require) {
             this.resizeDevice();
         },
 
+        checkReadyStatus:function(){
+
+            if(this.model.get("_isImage")){
+                this.$('.embeddedLink-image').imageready(_.bind(function() {
+                    this.setReadyStatus();
+                }, this));
+            }
+            else if(this.model.get("_isVideo")){
+                if (this.model.get('_source') != "") {
+                    this.setReadyStatus();
+                }
+            }
+            else{
+                if(Adapt.device.screenSize != 'large'){
+                    this.$('.embeddedLink-iframe-posterImage').imageready(_.bind(function() {
+                        this.setReadyStatus();
+                    }, this));
+                }
+                else{
+                    this.$('.embeddedLink-iframe').ready(_.bind(function() {
+                        this.setReadyStatus();
+                    },this));
+                }
+            }
+        },
+
         inview: function(event, visible) {
             var addedMute = this.$('.embeddedLink-graphic-pin-icon').hasClass('icon-sound-mute');
             this.stopCurrentAudio();
             this.stopAudio();
+
             if (visible && !addedMute) {
                 var audioElement;
                 if($('html').hasClass('ie8')) {
@@ -85,7 +111,11 @@ define(function(require) {
 
                 }
                 this.playAudioForElement(audioElement);
-                this.setCompletionStatus();
+                if(Adapt.device.screenSize != 'large'){
+                    if(this.model.get("_isVideo")){
+                        this.checkCompletionStatus();
+                    }
+                }
             }
             else{
                 this.stopCurrentAudio();
@@ -93,37 +123,59 @@ define(function(require) {
             }
         },
 
+        inviewMobile:function(event, visible){
+
+            if(visible){
+                this.checkCompletionStatus();
+            }
+        },
+
         resizeDevice:function(){
             var posterSrc = this.model.get("_posterImage");
             var source = this.model.get("_source");
-            if(Adapt.device.screenSize != 'large'){
 
-                if(this.model.get("_isImage")){
-                    this.$(".embeddedLink-image").attr('src',posterSrc);
-                    this.$(".embeddedLink-image").css('cursor','default') ;
-                }
-                else
-                {
-                    if(!this.model.get('_isVideo')){
-                        this.$('.embeddedLink-iframe').hide();
-                        this.$('.embeddedLink-iframe-posterImage').show();
-                    }
-                    this.$('.embeddedLink-zoomin-button').hide();
-                }
+            if(Adapt.device.screenSize != 'large'){
+                this.settingsForMobileDevice(posterSrc);
+                this.$('.embeddedLink-iframe-holder').on('inview', _.bind(this.inviewMobile, this));
             }
             else{
-                if(this.model.get("_isImage")){
-                    this.$(".embeddedLink-image").attr('src',source);
-                    this.$(".embeddedLink-image").css('cursor','pointer') ;
+                this.settingsForDesktop(source);
+            }
+        },
+
+        settingsForMobileDevice:function(posterSrc){
+
+            if(this.model.get("_isImage")){
+                this.$(".embeddedLink-image").attr('src',posterSrc);
+                this.$(".embeddedLink-image").css('cursor','default');
+                this.$(".embeddedLink-description-container").hide();
+            }
+            else
+            {
+                if(!this.model.get('_isVideo')){
+                    this.$('.embeddedLink-iframe').hide();
+                    this.$('.embeddedLink-iframe-posterImage').show();
+                    this.$(".embeddedLink-description-container").hide();
                 }
-                else
-                {
-                    if(!this.model.get('_isVideo')){
-                        this.$('.embeddedLink-iframe-posterImage').hide();
-                        this.$('.embeddedLink-iframe').show();
-                    }
-                    this.$('.embeddedLink-zoomin-button').show();
+                this.$('.embeddedLink-zoomin-button').hide();
+            }
+        },
+
+        settingsForDesktop:function(source){
+
+            if(this.model.get("_isImage")){
+                this.$(".embeddedLink-image").attr('src',source);
+                this.$(".embeddedLink-image").css('cursor','pointer') ;
+                this.$(".embeddedLink-description-container").show();
+            }
+            else
+            {
+                if(!this.model.get('_isVideo')){
+                    this.$('.embeddedLink-iframe-posterImage').hide();
+                    this.$('.embeddedLink-iframe').show();
+                    this.$(".embeddedLink-description-container").show();
                 }
+                this.$('.embeddedLink-zoomin-button').show();
             }
         },
 
@@ -176,6 +228,7 @@ define(function(require) {
         },
 
         onClickAudioButton:function(event){
+
             if(event && event.preventDefault) event.preventDefault();
 
             var audioElement;
@@ -187,6 +240,7 @@ define(function(require) {
             else{
                 audioElement = this.model.get("_currentAudioElement");
             }
+
             if(audioElement==''){
                 if(isIE8){
                     audioElement=new MediaElementPlayer(this.$('.embeddedLink-item-audio audio')[0]);
@@ -210,12 +264,12 @@ define(function(require) {
         onClickZoomInButton:function(event){
             event.preventDefault();
             var browser = Adapt.device.browser;
+
             if(browser == 'ipad'){
                 this.$(".embeddedLink-lightBox-iframe-parent").css({'overflow':'auto' , '-webkit-overflow-scrolling':'touch'});
             }
             var isLightBox=this.model.get("_isLightBox");
             var source = this.model.get("_source");
-
             //Pause all the videos on popout button clicked
             var videoPause=$("video");
             for(var i=0;i<videoPause.length;i++){
@@ -224,17 +278,27 @@ define(function(require) {
 
             if(isLightBox){
                 this.$('.embeddedLink-lightBox-popup-container').modal();
+                this.checkCompletionStatus();
+
             }
             else{
                 window.open(source,'_blank','width=1024,height=768,left=100,top=100');
+                this.checkCompletionStatus();
             }
         },
         onClickImage:function(event){
             event.preventDefault();
-            if(Adapt.device.screenSize != 'large')return
+            if(Adapt.device.screenSize != 'large')return;
 
             var imageSource = this.model.get("_imageSource");
             window.open(imageSource,'_blank','width=1024,height=768,left=100,top=100');
+            this.checkCompletionStatus();
+        },
+        checkCompletionStatus: function() {
+
+            if (!this.model.get('_isComplete')) {
+                this.setCompletionStatus();
+            }
         }
 
     });
