@@ -55,7 +55,8 @@
     "_height":800,
     "_posterImage":"course/en/images/big_buck_bunny-small.jpg",
     "_source": "course/en/pdf/adapt-framework-prototypes-buttons.pdf",
-    "_isLightBox":false
+    "_hasPagination":true,
+    "_isLightBox":false,
     "_pageLevelProgress": {
         "_isEnabled": true
     }

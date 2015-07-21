@@ -66,6 +66,10 @@ Codec of audio
 
 This is the source of the image which will appears as poster image on mobile.
 
+####_hasPagination
+
+This is `true` if the there is pagination description else it should be `false`
+
 ####_source
 
 This is source of media which will be displayed in iFrame
