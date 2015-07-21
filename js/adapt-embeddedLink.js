@@ -1,21 +1,9 @@
 /*
  * adapt-embeddedLink
- * Copyright (C) 2015 Bombardier Inc. (www.batraining.com)
- * https://github.com/BATraining/adapt-embeddedLink/blob/master/LICENSE
- *
- * This program is free software: you can redistribute it and/or modify
- * it under the terms of the GNU General Public License as published by
- * the Free Software Foundation, either version 3 of the License, or
- * (at your option) any later version.
- *
- * This program is distributed in the hope that it will be useful,
- * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
- * GNU General Public License for more details.
- *
- * You should have received a copy of the GNU General Public License
- * along with this program.  If not, see <http://www.gnu.org/licenses/>.
- */
+ * License - https://github.com/adaptlearning/adapt_framework/blob/master/LICENSE
+ * Maintainer - Amruta Thakur <amruta.thakur@exultcorp.com>
+*/
+
 define(function(require) {
 
     var ComponentView = require("coreViews/componentView");
@@ -28,7 +16,9 @@ define(function(require) {
         events: {
             'click .embeddedLink-zoomin-button':'onClickZoomInButton',
             'click .embeddedLink-graphic-pin': 'onClickAudioButton',
-            'click .embeddedLink-image':'onClickImage'
+            'click .embeddedLink-image':'onClickImage',
+            'click .back':'onClickBack',
+            'click .next':'onClickNext'
         },
 
         preRender: function() {
@@ -36,6 +26,7 @@ define(function(require) {
         },
 
         initialSetUp:function(){
+            this.widthChange = 0;
             var videoExtensionsList = ["mp4","ogv","ogg"];
             var imageExtensionsList = ["jpg","png","jpeg","svg","gif","bmp"];
             var extension = this.model.get("_source").split(".")[1];
@@ -50,24 +41,58 @@ define(function(require) {
                     this.model.set("_isImage",true);
                 }
             },this);
+
+            if(this.model.get("_isVideo") == undefined && this.model.get("_isImage") == undefined){
+                this.model.set("_isDocument",true);
+            };
         },
 
         postRender: function() {
-            this.listenTo(Adapt,'device:changed',this.resizeDevice,this);
 
+            var bodyText=this.model.get('_page').body;
+            this.listenTo(Adapt,'device:changed',this.resizeDevice,this);
+            this.widthChange=Adapt.device.screenWidth;
+            this.listenTo(Adapt,'device:resize',function(e){
+                if(this.widthChange != Adapt.device.screenWidth){
+                    if(this.model.get('_hasPagination') != undefined && this.model.get('_hasPagination')){
+                        this.settingForPagination(bodyText);
+                    }
+                }
+
+            },this);
+
+            this.bindInviewEvents();
+            this.checkReadyStatus();
+            this.settingsForAudio();
+            this.resizeDevice();
+
+            if(this.model.get("_isDocument") != undefined){
+                this.$(".page-body").addClass("isDocument");
+            }
+            if(bodyText == ""){
+                this.$('.embeddedLink-description-container').hide();
+            }
+
+            if(this.model.get('_hasPagination') != undefined && this.model.get('_hasPagination')){
+                this.settingForPagination(bodyText);
+                //this.$(".back").hide();
+            }
+        },
+
+        bindInviewEvents:function(){
             if(Adapt.device.screenSize != 'large'){
                 this.$('.embeddedLink-iframe-holder').on('inview', _.bind(this.inviewMobile, this));
             }
             this.$('.embeddedLink-description').on('inview', _.bind(this.inview, this));
-            this.checkReadyStatus();
+        },
 
+        settingsForAudio:function(){
             if($('html').hasClass('ie8')) {
                 var audioObject=new MediaElementPlayer(this.$('audio')[0]);
                 this.model.set('_audioObjectForIE',audioObject);
             }
             this.$('.mejs-container').addClass('display-none');
             this.$('audio').on('ended', _.bind(this.onAudioEnded, this));
-            this.resizeDevice();
         },
 
         checkReadyStatus:function(){
@@ -127,6 +152,74 @@ define(function(require) {
 
             if(visible){
                 this.checkCompletionStatus();
+            }
+        },
+
+        settingForPagination:function(bodyText){
+            var bodyTextArray = bodyText.split(" ");
+            var $pagebody =this.$(".page-body");
+            var divCount = 1,charLength;
+            var i= 0, newDivCnt=0;
+            this.initialPaginationSetting($pagebody);
+
+            while(i<bodyTextArray.length){
+
+                if(this.$('.pageText-'+divCount)[0].scrollWidth > this.$('.pageText-'+divCount).innerWidth() || this.$('.pageText-'+divCount)[0].scrollHeight > this.$('.pageText-'+divCount).innerHeight()){
+                    this.hideOverflow(divCount,bodyTextArray[i-1]);
+                    i=i-2;
+                    this.createDiv(++divCount);
+                    ++newDivCnt;
+                }
+                else{
+                     this.$('.pageText-'+divCount).append(bodyTextArray[i]+" ");
+                }
+                i++;
+            }
+
+            if(newDivCnt == 0 ){
+                this.$(".embeddedLink-pagination-controls").hide();
+            }
+            else{
+                this.$(".embeddedLink-pagination-controls").show();
+            }
+            var totalLength = this.$(".page-body").length;
+            this.$(".total").html(totalLength);
+            this.$(".paginated-div").hide();
+            this.widthChange = Adapt.device.screenWidth;
+
+            if(this.$(".icon-shrink").hasClass("icon")){
+                this.$(".page-body").show();
+                this.$(".embeddedLink-pagination-controls").hide();
+            }
+        },
+
+        initialPaginationSetting:function(pagebody){
+            pagebody.html("");
+            var length = pagebody.length;
+            $(pagebody[0]).show();
+            if(length >1){
+                for(var j=1;j<=length;j++){
+                    $(pagebody[j]).remove();
+                }
+            }
+            this.$(".current").html("1");
+            this.$(".total").html("1");
+            this.$(".back").hide();
+            this.$(".next").show();
+        },
+
+        hideOverflow:function(divCount,bodyText){
+            var text = this.$('.pageText-'+divCount).html();
+            var cnt =text.length - bodyText.length-1;
+            text = text.substring(0,cnt);
+            this.$('.pageText-'+divCount).html(text);
+        },
+
+        createDiv:function(count){
+
+            if($(".pageText-"+count).html() == undefined){
+                var div = $("<div class='paginated-div isDocument page-body pageText-"+count+"'></div>")
+                this.$(".embeddedLink-description").append(div);
             }
         },
 
@@ -264,28 +357,78 @@ define(function(require) {
         onClickZoomInButton:function(event){
             event.preventDefault();
             var browser = Adapt.device.browser;
+            var isLightBox=this.model.get("_isLightBox");
+            var source = this.model.get("_source");
 
             if(browser == 'ipad'){
                 this.$(".embeddedLink-lightBox-iframe-parent").css({'overflow':'auto' , '-webkit-overflow-scrolling':'touch'});
             }
-            var isLightBox=this.model.get("_isLightBox");
-            var source = this.model.get("_source");
+
+            this.videoSettingOnZoomIn();
+
+            this.lightBoxSettingOnZoomIn(isLightBox,source,event);
+
+            if(this.model.get("_isDocument") != undefined && this.model.get("_isDocument")){
+                this.documentSettingForZoomIn(event);
+            }
+        },
+
+        videoSettingOnZoomIn:function(){
             //Pause all the videos on popout button clicked
-            var videoPause=$("video");
+            var videoPause=this.$("video");
             for(var i=0;i<videoPause.length;i++){
                 videoPause[i].pause();
             }
+        },
 
-            if(isLightBox){
-                this.$('.embeddedLink-lightBox-popup-container').modal();
-                this.checkCompletionStatus();
+        lightBoxSettingOnZoomIn:function(isLightBox,source,event){
+            var $zoomInButtonRef = $(event.currentTarget);
+            var zoomIcon = $zoomInButtonRef.find('.icon');
 
-            }
-            else{
-                window.open(source,'_blank','width=1024,height=768,left=100,top=100');
-                this.checkCompletionStatus();
+            if(!zoomIcon.hasClass('icon-shrink')){
+                if(isLightBox){
+                    this.$('.embeddedLink-lightBox-popup-container').modal();
+                    this.checkCompletionStatus();
+
+                }
+                else{
+                    window.open(source,'_blank','width=1024,height=768,left=100,top=100');
+                    this.checkCompletionStatus();
+                }
             }
         },
+
+        documentSettingForZoomIn:function(event){
+            var $zoomInButtonRef = $(event.currentTarget);
+            var zoomIcon = $zoomInButtonRef.find('.icon');
+
+            if(zoomIcon.hasClass('icon-expand')){
+                zoomIcon.removeClass('icon-expand');
+                zoomIcon.addClass('icon-shrink');
+                this.$(".embeddedLink-iframe").hide();
+                this.$(".paginated-div").addClass("showAllText");
+                this.$(".page-body").addClass("expandText");
+                this.$(".page-body").show();
+                this.$(".embeddedLink-pagination-controls").hide();
+            }
+            else{
+                zoomIcon.removeClass('icon-shrink');
+                zoomIcon.addClass('icon-expand');
+                var totalLength = this.$(".page-body").length;
+                this.$(".page-body").removeClass("expandText");
+                this.$(".embeddedLink-iframe").show();
+                this.$(".paginated-div").removeClass("showAllText");
+                this.$(".paginated-div").hide();
+                if(totalLength != 1){
+                    this.$(".embeddedLink-pagination-controls").show();
+                }
+                this.$(".total").html(totalLength);
+                this.$(".current").html("1");
+                this.$(".back").hide();
+                this.$(".next").show();
+            }
+        },
+
         onClickImage:function(event){
             event.preventDefault();
             if(Adapt.device.screenSize != 'large')return;
@@ -294,6 +437,39 @@ define(function(require) {
             window.open(imageSource,'_blank','width=1024,height=768,left=100,top=100');
             this.checkCompletionStatus();
         },
+
+        onClickBack:function(event){
+            event.preventDefault();
+            var $back=$(event.currentTarget);
+            var $currentPageNo = $back.parent().siblings(".embeddedLink-popup-count").find(".current");
+            var textNo =$currentPageNo.text();
+
+            this.$(".pageText-"+textNo).hide();
+            $currentPageNo.html(--textNo);
+            this.$(".pageText-"+textNo).show();
+            if(textNo == 1){
+                $back.hide();
+            }
+            this.$(".next").show();
+        },
+
+        onClickNext:function(event){
+            event.preventDefault();
+            var $next=$(event.currentTarget);
+            var $currentPageNo = $next.parent().siblings(".embeddedLink-popup-count").find(".current");
+            var textNo =$currentPageNo.text();
+
+            this.$(".pageText-"+textNo).hide();
+            $currentPageNo.html(++textNo);
+            this.$(".pageText-"+textNo).show();
+            this.$(".back").show();
+            var total = this.$(".page-body").length;
+
+            if(textNo == total){
+                $next.hide();
+            }
+        },
+
         checkCompletionStatus: function() {
 
             if (!this.model.get('_isComplete')) {

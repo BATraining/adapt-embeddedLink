@@ -1,28 +1,92 @@
 .embeddedLink-inner {
 
   .embeddedLink-description-container{
-    width: 99%;
+    width: 100%;
     border-radius: 5px;
     border: 2px solid #dcddde;
     position: relative;
     margin: 0 auto;
     margin-bottom: 20px;
-  }
 
-  .embeddedLink-description{
-    padding: 2%;
-  }
+    .pagination-controller-bar{
+      width: 100%;
+      position: relative;
+      display: inline-block;
+      .embeddedLink-pagination-controls{
+        padding: 8px;
+        padding-right: 10px;
+        float: left;
 
-  .embeddedLink-graphic-pin{
-    float: right;
-    padding: 10px;
-  }
+        .back-container{
+          width: 28px;
+          height: 28px;
+          position: relative;
+          float: left;
+          text-align: center;
+          line-height: 28px;
+        }
 
-  .icon{
-    color:@primary-color;
-    cursor:pointer;
-  }
+        .count-container{
+          width: 38px;
+          height: 28px;
+          position: relative;
+          float: left;
+          text-align: center;
+          line-height: 28px;
+          font-size: 14px;
+          font-weight: bold;
+        }
 
+        .next-container{
+          width: 28px;
+          height: 28px;
+          position: relative;
+          float: left;
+          text-align: center;
+          line-height: 28px;
+        }
+      }
+      .embeddedLink-popup-controls{
+        cursor: pointer;
+      }
+
+      .embeddedLink-audio-icon-container{
+        position: relative;
+        float: right;
+      }
+
+    }
+
+    .embeddedLink-description{
+      padding: 8px;
+      .page-body{
+        max-height: 40px;
+        overflow: hidden;
+      }
+      .expandText{
+        line-height: 2;
+        max-height: 100%;
+      }
+    }
+
+    .embeddedLink-graphic-pin{
+      float: right;
+      padding: 10px;
+      position: relative;
+    }
+
+    .icon{
+      //color:@primary-color;
+      color:#102A3E !important;
+      cursor:pointer;
+    }
+    .icon-expand{
+      color:#102A3E !important;
+    }
+    .icon-shrink{
+      color:#102A3E !important;
+    }
+  }
   .embeddedLink-iframe-holder {
     width: 100%;
     height: 100%;
@@ -49,7 +113,6 @@
       width: 98%;
       height: 600px;
       vertical-align: top;
-      border: 2px solid #030303;
     }
 
     .embeddedLink-iframe-posterImage{
@@ -85,5 +148,10 @@
     height: 40px;
     background:transparent;
   }
+
+  .embeddedLink-zoomout-button{
+    display: none;
+  }
+
 
 }
