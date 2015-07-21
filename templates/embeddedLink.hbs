@@ -6,19 +6,25 @@
             {{#if _hasPagination}}
                 <div class="pagination-controller-bar">
                     <div class="embeddedLink-pagination-controls">
-                        <a href="#" class="embeddedLink-popup-controls back" title="back" alt="back">
-                            <div class="embeddedLink-popup-arrow-l component-item-text-color icon icon-controls-small-left"></div>
-                        </a>
-                        <div class="embeddedLink-popup-count component-item-text-color">
+                        <div class="back-container">
+                            <a href="#" class="embeddedLink-popup-controls back" title="back" alt="back">
+                                <span class="embeddedLink-popup-arrow-l component-item-text-color icon icon-controls-small-left"></span>
+                            </a>
+                        </div>
+                        <div class="embeddedLink-popup-count component-item-text-color count-container">
                             <span class="current">1</span>/<span class="total">1</span>
                         </div>
-                        <a href="#" class="embeddedLink-popup-controls next" title="next" alt="next">
-                            <div class="embeddedLink-popup-arrow-r component-item-text-color icon icon-controls-small-right"></div>
+                        <div class="next-container">
+                            <a href="#" class="embeddedLink-popup-controls next" title="next" alt="next">
+                                <span class="embeddedLink-popup-arrow-r component-item-text-color icon icon-controls-small-right"></span>
+                            </a>
+                        </div>
+                    </div>
+                    <div class="embeddedLink-audio-icon-container">
+                        <a href="#" class="embeddedLink-graphic-pin component-item-text-color {{#if _isVisited}}visited{{/if}}">
+                            <span class="embeddedLink-graphic-pin-icon component-item-color icon icon-sound"></span>
                         </a>
                     </div>
-                    <a href="#" class="embeddedLink-graphic-pin component-item-text-color {{#if _isVisited}}visited{{/if}}">
-                        <div class="embeddedLink-graphic-pin-icon component-item-color icon icon-sound"></div>
-                    </a>
                 </div>
             {{else}}
                 <a href="#" class="embeddedLink-graphic-pin component-item-text-color {{#if _isVisited}}visited{{/if}}">
