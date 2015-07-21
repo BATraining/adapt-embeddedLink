@@ -9,24 +9,52 @@
     margin-bottom: 20px;
 
     .pagination-controller-bar{
-      height: 38px;
+      width: 100%;
+      position: relative;
+      display: inline-block;
       .embeddedLink-pagination-controls{
-        padding: 5px;
+        padding: 8px;
+        padding-right: 10px;
         float: left;
-      }
 
+        .back-container{
+          width: 28px;
+          height: 28px;
+          position: relative;
+          float: left;
+          text-align: center;
+          line-height: 28px;
+        }
+
+        .count-container{
+          width: 38px;
+          height: 28px;
+          position: relative;
+          float: left;
+          text-align: center;
+          line-height: 28px;
+          font-size: 14px;
+          font-weight: bold;
+        }
+
+        .next-container{
+          width: 28px;
+          height: 28px;
+          position: relative;
+          float: left;
+          text-align: center;
+          line-height: 28px;
+        }
+      }
       .embeddedLink-popup-controls{
         cursor: pointer;
       }
-      .back{
-        float: left;
+
+      .embeddedLink-audio-icon-container{
+        position: relative;
+        float: right;
       }
-      .embeddedLink-popup-count{
-        float: left;
-      }
-      .next{
-        float: left;
-      }
+
     }
 
     .embeddedLink-description{
@@ -35,16 +63,28 @@
         max-height: 40px;
         overflow: hidden;
       }
+      .expandText{
+        line-height: 2;
+        max-height: 100%;
+      }
     }
 
     .embeddedLink-graphic-pin{
       float: right;
       padding: 10px;
+      position: relative;
     }
 
     .icon{
-      color:@primary-color;
+      //color:@primary-color;
+      color:#102A3E !important;
       cursor:pointer;
+    }
+    .icon-expand{
+      color:#102A3E !important;
+    }
+    .icon-shrink{
+      color:#102A3E !important;
     }
   }
   .embeddedLink-iframe-holder {

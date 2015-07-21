@@ -75,7 +75,7 @@ define(function(require) {
 
             if(this.model.get('_hasPagination') != undefined && this.model.get('_hasPagination')){
                 this.settingForPagination(bodyText);
-                this.$(".back").hide();
+                //this.$(".back").hide();
             }
         },
 
@@ -407,6 +407,7 @@ define(function(require) {
                 zoomIcon.addClass('icon-shrink');
                 this.$(".embeddedLink-iframe").hide();
                 this.$(".paginated-div").addClass("showAllText");
+                this.$(".page-body").addClass("expandText");
                 this.$(".page-body").show();
                 this.$(".embeddedLink-pagination-controls").hide();
             }
@@ -414,14 +415,13 @@ define(function(require) {
                 zoomIcon.removeClass('icon-shrink');
                 zoomIcon.addClass('icon-expand');
                 var totalLength = this.$(".page-body").length;
+                this.$(".page-body").removeClass("expandText");
                 this.$(".embeddedLink-iframe").show();
                 this.$(".paginated-div").removeClass("showAllText");
                 this.$(".paginated-div").hide();
                 if(totalLength != 1){
                     this.$(".embeddedLink-pagination-controls").show();
                 }
-
-
                 this.$(".total").html(totalLength);
                 this.$(".current").html("1");
                 this.$(".back").hide();
@@ -441,7 +441,7 @@ define(function(require) {
         onClickBack:function(event){
             event.preventDefault();
             var $back=$(event.currentTarget);
-            var $currentPageNo = $back.siblings(".embeddedLink-popup-count").find(".current");
+            var $currentPageNo = $back.parent().siblings(".embeddedLink-popup-count").find(".current");
             var textNo =$currentPageNo.text();
 
             this.$(".pageText-"+textNo).hide();
@@ -456,7 +456,7 @@ define(function(require) {
         onClickNext:function(event){
             event.preventDefault();
             var $next=$(event.currentTarget);
-            var $currentPageNo = $next.siblings(".embeddedLink-popup-count").find(".current");
+            var $currentPageNo = $next.parent().siblings(".embeddedLink-popup-count").find(".current");
             var textNo =$currentPageNo.text();
 
             this.$(".pageText-"+textNo).hide();
