@@ -45,17 +45,26 @@ define(function(require) {
             if(this.model.get("_isVideo") == undefined && this.model.get("_isImage") == undefined){
                 this.model.set("_isDocument",true);
             };
+			
+			this.model.set('_hasPagination', this.model.get('_page').instructionSteps != undefined);
         },
 
         postRender: function() {
 
-            var bodyText=this.model.get('_page').body;
+            var instructionSteps = [];
+			if (this.model.get('_page').instructionSteps) {
+				instructionSteps = this.model.get('_page').instructionSteps;
+			}
+			else if (this.model.get('_page').body) {
+				instructionSteps = [this.model.get('_page').body];
+			}
+			
             this.listenTo(Adapt,'device:changed',this.resizeDevice,this);
             this.widthChange=Adapt.device.screenWidth;
             this.listenTo(Adapt,'device:resize',function(e){
                 if(this.widthChange != Adapt.device.screenWidth){
                     if(this.model.get('_hasPagination') != undefined && this.model.get('_hasPagination')){
-                        this.settingForPagination(bodyText);
+                        this.settingForPagination(instructionSteps);
                     }
                 }
 
@@ -69,12 +78,12 @@ define(function(require) {
             if(this.model.get("_isDocument") != undefined){
                 this.$(".page-body").addClass("isDocument");
             }
-            if(bodyText == ""){
+            if(instructionSteps.length == 0){
                 this.$('.embeddedLink-description-container').hide();
             }
 
             if(this.model.get('_hasPagination') != undefined && this.model.get('_hasPagination')){
-                this.settingForPagination(bodyText);
+                this.settingForPagination(instructionSteps);
                 //this.$(".back").hide();
             }
         },
@@ -155,28 +164,18 @@ define(function(require) {
             }
         },
 
-        settingForPagination:function(bodyText){
-            var bodyTextArray = bodyText.split(" ");
+        settingForPagination:function(instructionSteps){
             var $pagebody =this.$(".page-body");
-            var divCount = 1,charLength;
-            var i= 0, newDivCnt=0;
+            var i= 0;
             this.initialPaginationSetting($pagebody);
 
-            while(i<bodyTextArray.length){
-
-                if(this.$('.pageText-'+divCount)[0].scrollWidth > this.$('.pageText-'+divCount).innerWidth() || this.$('.pageText-'+divCount)[0].scrollHeight > this.$('.pageText-'+divCount).innerHeight()){
-                    this.hideOverflow(divCount,bodyTextArray[i-1]);
-                    i=i-2;
-                    this.createDiv(++divCount);
-                    ++newDivCnt;
-                }
-                else{
-                     this.$('.pageText-'+divCount).append(bodyTextArray[i]+" ");
-                }
-                i++;
+            for (i = 1; i <= instructionSteps.length; ++i) {
+				this.createDiv(i);
+				
+				this.$('.pageText-' + i).append(instructionSteps[i - 1]);
             }
 
-            if(newDivCnt == 0 ){
+            if (i == 0){
                 this.$(".embeddedLink-pagination-controls").hide();
             }
             else{
@@ -206,13 +205,6 @@ define(function(require) {
             this.$(".total").html("1");
             this.$(".back").hide();
             this.$(".next").show();
-        },
-
-        hideOverflow:function(divCount,bodyText){
-            var text = this.$('.pageText-'+divCount).html();
-            var cnt =text.length - bodyText.length-1;
-            text = text.substring(0,cnt);
-            this.$('.pageText-'+divCount).html(text);
         },
 
         createDiv:function(count){
