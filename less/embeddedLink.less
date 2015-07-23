@@ -11,9 +11,21 @@
     .pagination-controller-bar{
       width: 100%;
       position: relative;
-      display: inline-block;
+      display: block;
+
+      &.hidePagination {
+        height: 0px;
+        display: block;
+      }
+
+      &:not(.hidePagination) {
+        & + .embeddedLink-description {
+          padding: 0px 8px 8px;
+        }
+      }
+
       .embeddedLink-pagination-controls{
-        padding: 8px;
+        padding: 8px 8px 0px;
         padding-right: 10px;
         float: left;
 
@@ -48,6 +60,10 @@
       }
       .embeddedLink-popup-controls{
         cursor: pointer;
+
+        span.icon {
+          padding-top: 2px;
+        }
       }
 
       .embeddedLink-audio-icon-container{
@@ -59,19 +75,11 @@
 
     .embeddedLink-description{
       padding: 8px;
-      .page-body{
-        max-height: 40px;
-        overflow: hidden;
-      }
-      .expandText{
-        line-height: 2;
-        max-height: 100%;
-      }
     }
 
     .embeddedLink-graphic-pin{
       float: right;
-      padding: 10px;
+      padding: 8px 8px 2px;
       position: relative;
     }
 

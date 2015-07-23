@@ -399,7 +399,7 @@ define(function(require) {
                 zoomIcon.addClass('icon-shrink');
                 this.$(".embeddedLink-iframe").hide();
                 this.$(".paginated-div").addClass("showAllText");
-                this.$(".page-body").addClass("expandText");
+                this.$(".pagination-controller-bar").addClass("hidePagination");
                 this.$(".page-body").show();
                 this.$(".embeddedLink-pagination-controls").hide();
             }
@@ -407,7 +407,7 @@ define(function(require) {
                 zoomIcon.removeClass('icon-shrink');
                 zoomIcon.addClass('icon-expand');
                 var totalLength = this.$(".page-body").length;
-                this.$(".page-body").removeClass("expandText");
+                this.$(".pagination-controller-bar").removeClass("hidePagination");
                 this.$(".embeddedLink-iframe").show();
                 this.$(".paginated-div").removeClass("showAllText");
                 this.$(".paginated-div").hide();
