@@ -45,20 +45,20 @@ define(function(require) {
             if(this.model.get("_isVideo") == undefined && this.model.get("_isImage") == undefined){
                 this.model.set("_isDocument",true);
             };
-			
-			this.model.set('_hasPagination', this.model.get('_page').instructionSteps != undefined);
+
+            this.model.set('_hasPagination', this.model.get('_page').instructionSteps != undefined);
         },
 
         postRender: function() {
 
             var instructionSteps = [];
-			if (this.model.get('_page').instructionSteps) {
-				instructionSteps = this.model.get('_page').instructionSteps;
-			}
-			else if (this.model.get('_page').body) {
-				instructionSteps = [this.model.get('_page').body];
-			}
-			
+            if (this.model.get('_page').instructionSteps) {
+                instructionSteps = this.model.get('_page').instructionSteps;
+            }
+            else if (this.model.get('_page').body) {
+                instructionSteps = [this.model.get('_page').body];
+            }
+
             this.listenTo(Adapt,'device:changed',this.resizeDevice,this);
             this.widthChange=Adapt.device.screenWidth;
             this.listenTo(Adapt,'device:resize',function(e){
@@ -170,9 +170,9 @@ define(function(require) {
             this.initialPaginationSetting($pagebody);
 
             for (i = 1; i <= instructionSteps.length; ++i) {
-				this.createDiv(i);
-				
-				this.$('.pageText-' + i).append(instructionSteps[i - 1]);
+                this.createDiv(i);
+
+                this.$('.pageText-' + i).append(instructionSteps[i - 1]);
             }
 
             if (i == 0){
@@ -208,8 +208,7 @@ define(function(require) {
         },
 
         createDiv:function(count){
-
-            if($(".pageText-"+count).html() == undefined){
+            if(this.$(".pageText-"+count).html() == undefined){
                 var div = $("<div class='paginated-div isDocument page-body pageText-"+count+"'></div>")
                 this.$(".embeddedLink-description").append(div);
             }
