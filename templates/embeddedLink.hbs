@@ -20,16 +20,20 @@
                             </a>
                         </div>
                     </div>
-                    <div class="embeddedLink-audio-icon-container">
-                        <a href="#" class="embeddedLink-graphic-pin component-item-text-color {{#if _isVisited}}visited{{/if}}">
-                            <span class="embeddedLink-graphic-pin-icon component-item-color icon icon-sound"></span>
-                        </a>
-                    </div>
+                    {{#if _page.audioSrc}}
+                        <div class="embeddedLink-audio-icon-container">
+                            <a href="#" class="embeddedLink-graphic-pin component-item-text-color {{#if _isVisited}}visited{{/if}}">
+                                <span class="embeddedLink-graphic-pin-icon component-item-color icon icon-sound icon-sound-mute"></span>
+                            </a>
+                        </div>
+                    {{/if}}
                 </div>
             {{else}}
-                <a href="#" class="embeddedLink-graphic-pin component-item-text-color {{#if _isVisited}}visited{{/if}}">
-                    <div class="embeddedLink-graphic-pin-icon component-item-color icon icon-sound"></div>
-                </a>
+                {{#if _page.audioSrc}}
+                    <a href="#" class="embeddedLink-graphic-pin component-item-text-color {{#if _isVisited}}visited{{/if}}">
+                        <div class="embeddedLink-graphic-pin-icon component-item-color icon icon-sound icon-sound-mute"></div>
+                    </a>
+                {{/if}}
             {{/if}}
             <div class="embeddedLink-description">
                 {{#if _page.title}}
