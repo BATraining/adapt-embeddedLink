@@ -1,4 +1,4 @@
-//If there is image to load
+//If there is image to load and an non-paginated instruction block.
 {
     "_id":"c-10",
     "_parentId":"b-05",
@@ -21,6 +21,7 @@
             }
         ]
     },
+    "_posterImage":"course/en/images/big_buck_bunny-small.jpg",
     "_source": "course/en/images/CS1_CS3_4911_003.jpg",
     "_imageSource":"course/en/embed/Wikipedia.html",
     "_pageLevelProgress": {
@@ -29,7 +30,7 @@
 },
 
 
-//other Media
+//other Media and a paginated instruction block.
 
 {
     "_id":"c-10",
@@ -41,20 +42,25 @@
     "title":"",
     "body": "",
     "_page":{
-    "title":"",
-    "body":"With the advent of modern browsers, frameworks, developments in HTML 5 and responsive design approaches we're now able to create engaging learning that will work, regardless of the device being used.",
-    "audioSrc": "course/en/audio/hot-graphic1",
-    "audioTypes": [
-        {
-            "type": "mp3",
-            "codec": "audio/mpeg"
-        }
-    ]
+        "title":"",
+        "body":"",
+		"instructionSteps":[
+			"1. Step 1",
+			"2. Step 2",
+			"3. Step 3"
+		],
+        "audioSrc": "course/en/audio/hot-graphic1",
+        "audioTypes": [
+            {
+                "type": "mp3",
+                "codec": "audio/mpeg"
+            }
+        ]
     },
-
     "_height":800,
+    "_posterImage":"course/en/images/big_buck_bunny-small.jpg",
     "_source": "course/en/pdf/adapt-framework-prototypes-buttons.pdf",
-    "_isLightBox":false
+    "_isLightBox":false,
     "_pageLevelProgress": {
         "_isEnabled": true
     }

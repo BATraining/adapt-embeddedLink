@@ -1,26 +1,111 @@
+/*
+ * adapt-embeddedLink
+ * Copyright (C) 2015 Bombardier Inc. (www.batraining.com)
+ * https://github.com/BATraining/adapt-embeddedLink/blob/master/LICENSE
+ *
+ * This program is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU General Public License as published by
+ * the Free Software Foundation, either version 3 of the License, or
+ * (at your option) any later version.
+ *
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU General Public License for more details.
+ *
+ * You should have received a copy of the GNU General Public License
+ * along with this program.  If not, see <http://www.gnu.org/licenses/>.
+ */
+@embeddedLink-padding: 8px;
+
 .embeddedLink-inner {
 
   .embeddedLink-description-container{
-    width: 99%;
+    width: 100%;
     border-radius: 5px;
     border: 2px solid #dcddde;
     position: relative;
     margin: 0 auto;
     margin-bottom: 20px;
-  }
 
-  .embeddedLink-description{
-    padding: 2%;
-  }
+    .pagination-controller-bar{
+      width: 100%;
+      position: relative;
+      display: block;
 
-  .embeddedLink-graphic-pin{
-    float: right;
-    padding: 10px;
-  }
+      &.hidePagination {
+        height: 0px;
+        display: block;
+      }
 
-  .icon{
-    color:@primary-color;
-    cursor:pointer;
+      &:not(.hidePagination) {
+        & + .embeddedLink-description {
+          padding: 0px @embeddedLink-padding @embeddedLink-padding;
+        }
+      }
+
+      .embeddedLink-pagination-controls{
+        padding: @embeddedLink-padding @embeddedLink-padding 0px;
+        padding-right: 10px;
+        float: left;
+
+        .back-container{
+          width: 28px;
+          height: 28px;
+          position: relative;
+          float: left;
+          text-align: center;
+          line-height: 28px;
+        }
+
+        .count-container{
+          width: 38px;
+          height: 28px;
+          position: relative;
+          float: left;
+          text-align: center;
+          line-height: 28px;
+          font-size: 16px;
+          font-weight: normal;
+        }
+
+        .next-container{
+          width: 28px;
+          height: 28px;
+          position: relative;
+          float: left;
+          text-align: center;
+          line-height: 28px;
+        }
+      }
+      .embeddedLink-popup-controls{
+        cursor: pointer;
+
+        span.icon {
+          padding-top: 2px;
+        }
+      }
+
+      .embeddedLink-audio-icon-container{
+        position: relative;
+        float: right;
+      }
+
+    }
+
+    .embeddedLink-description{
+      padding: @embeddedLink-padding;
+
+      .paginated-div.showAllText {
+        padding-top: @embeddedLink-padding;
+	  }
+    }
+
+    .embeddedLink-graphic-pin{
+      float: right;
+      padding: @embeddedLink-padding @embeddedLink-padding 2px;
+      position: relative;
+    }
   }
 
   .embeddedLink-iframe-holder {
@@ -49,7 +134,10 @@
       width: 98%;
       height: 600px;
       vertical-align: top;
-      border: 2px solid #030303;
+    }
+
+    .embeddedLink-iframe-posterImage{
+      display: none;
     }
 
     .embeddedLink-lightBox-popup-container{
@@ -81,5 +169,10 @@
     height: 40px;
     background:transparent;
   }
+
+  .embeddedLink-zoomout-button{
+    display: none;
+  }
+
 
 }

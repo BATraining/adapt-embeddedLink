@@ -46,6 +46,10 @@ This is title of description
 
 This is body of description
 
+####instructionSteps
+
+Array of steps that display as paginated instructions.  Fallback to body if this attribute is not present.
+
 ####audioSrc
 
 It is source of the audio which play when description is inview or audio button is clicked
@@ -61,6 +65,10 @@ Type of audio
 ####codec
 
 Codec of audio
+
+####_posterImage
+
+This is the source of the image which will appears as poster image on mobile.
 
 ####_source
 
