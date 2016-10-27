@@ -10,6 +10,7 @@
     "displayTitle": "Embedded Link",
     "body": "",
     "instruction": "",
+    "_isPartOfVerticalBlockSlider":false,
     "_page":{
         "title":"",
         "body":"With the advent of modern browsers, frameworks, developments in HTML 5 and responsive design approaches we're now able to create engaging learning that will work, regardless of the device being used.",
@@ -41,6 +42,7 @@
     "_layout":"full",
     "title":"",
     "body": "",
+    "_isPartOfVerticalBlockSlider":false,
     "_page":{
         "title":"",
         "body":"",

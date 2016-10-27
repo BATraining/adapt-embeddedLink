@@ -176,7 +176,7 @@ define(function(require) {
             }
         },
 
-        settingForPagination:function(instructionSteps){ console.log(instructionSteps)
+        settingForPagination:function(instructionSteps){
             var $pagebody =this.$(".page-body");
             var i= 0;
             this.initialPaginationSetting($pagebody);
@@ -288,7 +288,7 @@ define(function(require) {
 
         stopCurrentAudio:function(){
             var audioElement = this.model.get("_currentAudioElement");
-
+            console.log(this);
             if (audioElement) {
                 if (!audioElement.paused && audioElement.pause) {
                     audioElement.pause();
