@@ -41,6 +41,7 @@ define(function(require) {
             this.widthChange = 0;
             var videoExtensionsList = ["mp4", "ogv", "ogg"];
             var imageExtensionsList = ["jpg", "png", "jpeg", "svg", "gif", "bmp"];
+            var externalResource = ["html"];
             var extension = this.model.get("_source").split(".")[1];
 
             _.each(videoExtensionsList, function(videoExtension, index) {
@@ -53,8 +54,10 @@ define(function(require) {
                     this.model.set("_isImage", true);
                 }
             }, this);
-
-            if (this.model.get("_isVideo") == undefined && this.model.get("_isImage") == undefined) {
+            if (extension === externalResource[0]) {
+                this.model.set("_isExtenalResource", true);
+            }
+            if (this.model.get("_isVideo") == undefined && this.model.get("_isImage") == undefined && this.model.get("_isExtenalResource") == undefined) {
                 this.model.set("_isDocument", true);
             };
 
@@ -95,23 +98,36 @@ define(function(require) {
 
             if (this.model.get('_hasPagination') != undefined && this.model.get('_hasPagination')) {
                 this.settingForPagination(instructionSteps);
-                //this.$(".back").hide();
             }
         },
 
         bindInviewEvents: function() {
-            /*var self = this;
-            if (this.model.get("_isVideo")) {
-                if (this.model.get("_setCompletionOn") == "Enable") {
-                        this.$("video")[0].addEventListener('ended', function(e) {
+            if (this.model.get('_isExtenalResource') && !this.model.get('_setContentCompletion')) {
+                var self = this;
+                this.$('.embeddedLink-iframe-holder').find('iframe').load(function() {
+                    var isInteraction = this.contentWindow.ActionCompletion ? true : false;
+                    if (isInteraction) {
+                        //listen for the ifarme actions complation.
+                        self.$('.embeddedLink-iframe-holder').find('iframe').on('completion:status', function(evt, complationStatus) {
+                            if (complationStatus) {
                                 self.setCompletionStatus();
+                            }
                         });
+                    } else {
+                        if (Adapt.device.screenSize != 'large') {
+                            self.$('.embeddedLink-iframe-holder').on('inview', _.bind(self.inviewMobile, self));
+                        }
+                        self.$('.embeddedLink-iframe-holder').on('inview', _.bind(self.inviewDesktop, self));
+                    }
+                });
+
+            } else {
+                if (Adapt.device.screenSize != 'large') {
+                    this.$('.embeddedLink-iframe-holder').on('inview', _.bind(this.inviewMobile, this));
                 }
-            }*/
-            if (Adapt.device.screenSize != 'large') {
-                this.$('.embeddedLink-iframe-holder').on('inview', _.bind(this.inviewMobile, this));
+                this.$('.embeddedLink-iframe-holder').on('inview', _.bind(this.inviewDesktop, this));
             }
-            this.$('.embeddedLink-iframe-holder').on('inview', _.bind(this.inviewDesktop, this));
+
         },
 
         settingsForAudio: function() {
@@ -169,7 +185,7 @@ define(function(require) {
                 }
                 this.playAudioForElement(audioElement);
                 if (Adapt.device.screenSize == 'large') {
-                    if (this.model.get("_setCompletionOn") == true) {
+                    if (this.model.get("_setContentCompletion") == true) {
                         if (this._isVisibleTop && this._isVisibleBottom) {
                             if (this.model.get("_isImage")) {
                                 this.checkCompletionStatus();
@@ -182,6 +198,9 @@ define(function(require) {
                                 this.$("video")[0].addEventListener('ended', function(e) {
                                     self.checkCompletionStatus();
                                 });
+                            }
+                            if (this.model.get('_isExtenalResource')) {
+                                this.checkCompletionStatus();
                             }
                         }
                     } else {

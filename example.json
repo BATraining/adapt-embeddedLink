@@ -28,7 +28,7 @@
     "_pageLevelProgress": {
         "_isEnabled": true
     },
-    "_setCompletionOn": true
+    "_setContentCompletion": true
 },
 
 
@@ -67,5 +67,5 @@
     "_pageLevelProgress": {
         "_isEnabled": true
     },
-    "_setCompletionOn":true
+    "_setContentCompletion":true
 }
