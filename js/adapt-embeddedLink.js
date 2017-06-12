@@ -105,8 +105,8 @@ define(function(require) {
             if (this.model.get('_isExtenalResource') && !this.model.get('_setContentCompletion')) {
                 var self = this;
                 this.$('.embeddedLink-iframe-holder').find('iframe').load(function() {
-                    var isInteraction = this.contentWindow.ActionCompletion ? true : false;
-                    if (isInteraction) {
+                    var isFnAvailable = typeof this.contentWindow.setCompletionStatus == 'function';
+                    if (isFnAvailable) {
                         //listen for the ifarme actions complation.
                         self.$('.embeddedLink-iframe-holder').find('iframe').on('completion:status', function(evt, complationStatus) {
                             if (complationStatus) {
@@ -127,7 +127,6 @@ define(function(require) {
                 }
                 this.$('.embeddedLink-iframe-holder').on('inview', _.bind(this.inviewDesktop, this));
             }
-
         },
 
         settingsForAudio: function() {
