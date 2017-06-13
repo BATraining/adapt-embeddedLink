@@ -202,8 +202,6 @@ define(function(require) {
                                 this.checkCompletionStatus();
                             }
                         }
-                    } else {
-                        this.checkCompletionStatus();
                     }
                 }
             } else {
