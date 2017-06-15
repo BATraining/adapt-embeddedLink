@@ -41,7 +41,6 @@ define(function(require) {
             this.widthChange = 0;
             var videoExtensionsList = ["mp4", "ogv", "ogg"];
             var imageExtensionsList = ["jpg", "png", "jpeg", "svg", "gif", "bmp"];
-            var externalResource = ["html"];
             var extension = this.model.get("_source").split(".")[1];
 
             _.each(videoExtensionsList, function(videoExtension, index) {
@@ -54,10 +53,7 @@ define(function(require) {
                     this.model.set("_isImage", true);
                 }
             }, this);
-            if (extension === externalResource[0]) {
-                this.model.set("_isExtenalResource", true);
-            }
-            if (this.model.get("_isVideo") == undefined && this.model.get("_isImage") == undefined && this.model.get("_isExtenalResource") == undefined) {
+            if (this.model.get("_isVideo") == undefined && this.model.get("_isImage") == undefined) {
                 this.model.set("_isDocument", true);
             };
 
@@ -102,23 +98,14 @@ define(function(require) {
         },
 
         bindInviewEvents: function() {
-            if (this.model.get('_isExtenalResource') && !this.model.get('_setContentCompletion')) {
+            if (!this.model.get('_setContentCompletion')) {
                 var self = this;
                 this.$('.embeddedLink-iframe-holder').find('iframe').load(function() {
-                    var isFnAvailable = typeof this.contentWindow.setCompletionStatus == 'function';
-                    if (isFnAvailable) {
-                        //listen for the ifarme actions complation.
-                        self.$('.embeddedLink-iframe-holder').find('iframe').on('completion:status', function(evt, complationStatus) {
-                            if (complationStatus) {
-                                self.setCompletionStatus();
-                            }
-                        });
-                    } else {
-                        if (Adapt.device.screenSize != 'large') {
-                            self.$('.embeddedLink-iframe-holder').on('inview', _.bind(self.inviewMobile, self));
+                    self.$('.embeddedLink-iframe-holder').find('iframe').on('completion:status', function(evt, complationStatus) {
+                        if (complationStatus) {
+                            self.setCompletionStatus();
                         }
-                        self.$('.embeddedLink-iframe-holder').on('inview', _.bind(self.inviewDesktop, self));
-                    }
+                    });
                 });
 
             } else {
@@ -198,9 +185,6 @@ define(function(require) {
                                     self.checkCompletionStatus();
                                 });
                             }
-                            if (this.model.get('_isExtenalResource')) {
-                                this.checkCompletionStatus();
-                            }
                         }
                     }
                 }
@@ -218,7 +202,6 @@ define(function(require) {
         },
 
         settingForPagination: function(instructionSteps) {
-            console.log(instructionSteps)
             var $pagebody = this.$(".page-body");
             var i = 0;
             this.initialPaginationSetting($pagebody);
