@@ -377,19 +377,21 @@ define(function(require) {
             var isLightBox = this.model.get("_isLightBox");
             var source = this.model.get("_source");
 
-            if (browser == 'ipad') {
-                this.$(".embeddedLink-lightBox-iframe-parent").css({
-                    'overflow': 'auto',
-                    '-webkit-overflow-scrolling': 'touch'
-                });
-            }
+            if (this.model.get("_setContentCompletion") == true || (this.model.get('_isComplete'))) {
+                if (browser == 'ipad') {
+                    this.$(".embeddedLink-lightBox-iframe-parent").css({
+                        'overflow': 'auto',
+                        '-webkit-overflow-scrolling': 'touch'
+                    });
+                }
 
-            this.videoSettingOnZoomIn();
+                this.videoSettingOnZoomIn();
 
-            this.lightBoxSettingOnZoomIn(isLightBox, source, event);
+                this.lightBoxSettingOnZoomIn(isLightBox, source, event);
 
-            if (this.model.get("_isDocument") != undefined && this.model.get("_isDocument")) {
-                this.documentSettingForZoomIn(event);
+                if (this.model.get("_isDocument") != undefined && this.model.get("_isDocument")) {
+                    this.documentSettingForZoomIn(event);
+                }
             }
         },
 
