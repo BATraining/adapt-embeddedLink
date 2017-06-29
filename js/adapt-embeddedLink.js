@@ -80,6 +80,10 @@ define(function(require) {
 
             }, this);
 
+            if(!this.model.get("_setContentCompletion") || !(this.model.get('_isComplete'))){
+                this.$('.embeddedLink-zoomin-button').addClass('embeddedLink-zoomin-button-disable');
+            }
+
             this.bindInviewEvents();
             this.checkReadyStatus();
             this.settingsForAudio();
@@ -103,7 +107,8 @@ define(function(require) {
                 this.$('.embeddedLink-iframe-holder').find('iframe').load(function() {
                     self.$('.embeddedLink-iframe-holder').find('iframe').on('completion:status', function(evt, complationStatus) {
                         if (complationStatus) {
-                            self.setCompletionStatus();
+                            self.checkCompletionStatus();
+                            this.$(".embeddedLink-zoomin-button").removeClass("embeddedLink-zoomin-button-disable");
                         }
                     });
                 });
@@ -377,7 +382,8 @@ define(function(require) {
             var isLightBox = this.model.get("_isLightBox");
             var source = this.model.get("_source");
 
-            if (this.model.get("_setContentCompletion") == true || (this.model.get('_isComplete'))) {
+            if (this.model.get("_setContentCompletion") && (this.model.get('_isComplete')) ||
+                    !this.model.get("_setContentCompletion") && (this.model.get('_isComplete'))) {
                 if (browser == 'ipad') {
                     this.$(".embeddedLink-lightBox-iframe-parent").css({
                         'overflow': 'auto',
@@ -392,7 +398,7 @@ define(function(require) {
                 if (this.model.get("_isDocument") != undefined && this.model.get("_isDocument")) {
                     this.documentSettingForZoomIn(event);
                 }
-            }
+           }
         },
 
         videoSettingOnZoomIn: function() {
@@ -494,6 +500,7 @@ define(function(require) {
 
             if (!this.model.get('_isComplete')) {
                 this.setCompletionStatus();
+                this.$(".embeddedLink-zoomin-button").removeClass("embeddedLink-zoomin-button-disable");
             }
         }
 
