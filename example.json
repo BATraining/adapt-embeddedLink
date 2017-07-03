@@ -10,6 +10,7 @@
     "displayTitle": "Embedded Link",
     "body": "",
     "instruction": "",
+    "_isPartOfVerticalBlockSlider":false,
     "_page":{
         "title":"",
         "body":"With the advent of modern browsers, frameworks, developments in HTML 5 and responsive design approaches we're now able to create engaging learning that will work, regardless of the device being used.",
@@ -26,7 +27,8 @@
     "_imageSource":"course/en/embed/Wikipedia.html",
     "_pageLevelProgress": {
         "_isEnabled": true
-    }
+    },
+    "_setContentCompletion": true
 },
 
 
@@ -41,6 +43,7 @@
     "_layout":"full",
     "title":"",
     "body": "",
+    "_isPartOfVerticalBlockSlider":false,
     "_page":{
         "title":"",
         "body":"",
@@ -63,5 +66,6 @@
     "_isLightBox":false,
     "_pageLevelProgress": {
         "_isEnabled": true
-    }
+    },
+    "_setContentCompletion":true
 }

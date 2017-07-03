@@ -1,26 +1,8 @@
-{{!--
-    adapt-embeddedLink
-    Copyright (C) 2015 Bombardier Inc. (www.batraining.com)
-    https://github.com/BATraining/adapt-embeddedLink/blob/master/LICENSE
-   
-    This program is free software: you can redistribute it and/or modify
-    it under the terms of the GNU General Public License as published by
-    the Free Software Foundation, either version 3 of the License, or
-    (at your option) any later version.
-   
-    This program is distributed in the hope that it will be useful,
-    but WITHOUT ANY WARRANTY; without even the implied warranty of
-    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-    GNU General Public License for more details.
-   
-    You should have received a copy of the GNU General Public License
-    along with this program.  If not, see <http://www.gnu.org/licenses/>.
---}}
 <div class="embeddedLink-inner component-inner">
     {{> component this}}
     <div class="component-widget embeddedLink-widget">
 
-        <div class="embeddedLink-description-container">
+        <div class="embeddedLink-description-container {{#if _isPartOfVerticalBlockSlider}}display-none{{/if}}">
             {{#if _hasPagination}}
                 <div class="pagination-controller-bar clearfix">
                     <div class="embeddedLink-pagination-controls">
@@ -83,7 +65,7 @@
                 </video>
                 {{else}}
                 <img class="embeddedLink-iframe-posterImage" src="{{_posterImage}}">
-                <iframe scrolling="no" class="embeddedLink-iframe" src="{{_source}}" style="height:{{_height}}px">
+                <iframe class="embeddedLink-iframe" src="{{_source}}" style="height:{{_height}}px">
                 </iframe>
                 {{/if}}
             {{/if}}
@@ -104,9 +86,6 @@
             {{/if}}
         </div>
 
-        {{#if _isImage}}
-        {{else}}
-
             <div class="embeddedLink-zoomin-button">
                 {{#if _isDocument}}
                     <i class="icon icon-expand"></i>
@@ -115,8 +94,5 @@
                 {{/if}}
             </div>
 
-
-
-        {{/if}}
     </div>
 </div>
