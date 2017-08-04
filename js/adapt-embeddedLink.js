@@ -104,6 +104,15 @@ define(function(require) {
         bindInviewEvents: function() {
             if (!this.model.get('_setContentCompletion')) {
                 var self = this;
+                
+                window.addEventListener("message", event => {                    
+                    if(typeof event.data != 'undefined' && event.data == 'completion:status'){
+                        self.checkCompletionStatus();
+                        this.$(".embeddedLink-zoomin-button").removeClass("embeddedLink-zoomin-button-disable");
+                    }
+                    
+                }, false);
+
                 this.$('.embeddedLink-iframe-holder').find('iframe').load(function() {
                     self.$('.embeddedLink-iframe-holder').find('iframe').on('completion:status', function(evt, complationStatus) {
                         if (complationStatus) {
