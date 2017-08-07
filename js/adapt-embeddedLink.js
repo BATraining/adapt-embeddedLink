@@ -105,7 +105,7 @@ define(function(require) {
             if (!this.model.get('_setContentCompletion')) {
                 var self = this;
                 
-                window.addEventListener("message", event => {                    
+                window.addEventListener("message", function(event) {                    
                     if(typeof event.data != 'undefined' && event.data == 'completion:status'){
                         self.checkCompletionStatus();
                         this.$(".embeddedLink-zoomin-button").removeClass("embeddedLink-zoomin-button-disable");
