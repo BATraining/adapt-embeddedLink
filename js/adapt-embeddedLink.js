@@ -105,16 +105,18 @@ define(function(require) {
             if (!this.model.get('_setContentCompletion')) {
                 var self = this;
                 
-                window.addEventListener("message", function(event) {                    
-                    if(typeof event.data != 'undefined' && event.data == 'completion:status'){
-                        if( typeof event.target.API != 'undefined' && typeof event.target.API.data != 'undefined' 
-                        && typeof event.target.API.data['cmi.core.lesson_location'] != 'undefined'
-                        && typeof self.model.attributes._parentId != 'undefined'
-                        && event.target.API.data['cmi.core.lesson_location'] == self.model.attributes._parentId
-                         ){
-                             self.model.checkCompletionStatus();                            
+                window.addEventListener("message", function(event) {
+                    if ( typeof event.data != 'undefined' && event.data == 'completion:status' ) {
+                        if ( 
+                            typeof event.target.API != 'undefined' && typeof event.target.API.data != 'undefined' 
+                            && typeof event.target.API.data['cmi.core.lesson_location'] != 'undefined'
+                            && typeof self.model.attributes._parentId != 'undefined'
+                            && event.target.API.data['cmi.core.lesson_location'] == self.model.attributes._parentId
+                         ) {
+                             self.model.checkCompletionStatus();
+                             $("."+self.model.attributes._parentId+" .embeddedLink-zoomin-button").removeClass("embeddedLink-zoomin-button-disable");
                         }
-                    }                    
+                    }
                 }, false);
 
                 this.$('.embeddedLink-iframe-holder').find('iframe').load(function() {
