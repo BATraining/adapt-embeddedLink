@@ -107,10 +107,14 @@ define(function(require) {
                 
                 window.addEventListener("message", event => {                    
                     if(typeof event.data != 'undefined' && event.data == 'completion:status'){
-                        self.checkCompletionStatus();
-                        this.$(".embeddedLink-zoomin-button").removeClass("embeddedLink-zoomin-button-disable");
-                    }
-                    
+                        if( typeof event.target.API != 'undefined' && typeof event.target.API.data != 'undefined' 
+                        && typeof event.target.API.data['cmi.core.lesson_location'] != 'undefined'
+                        && typeof self.model.attributes._parentId != 'undefined'
+                        && event.target.API.data['cmi.core.lesson_location'] == self.model.attributes._parentId
+                         ){
+                             self.model.checkCompletionStatus();                            
+                        }
+                    }                    
                 }, false);
 
                 this.$('.embeddedLink-iframe-holder').find('iframe').load(function() {
