@@ -104,7 +104,6 @@ define(function(require) {
         bindInviewEvents: function() {
             if (!this.model.get('_setContentCompletion')) {
                 var self = this;
-                
                 window.addEventListener("message", function(event) {
                     if ( typeof event.data != 'undefined' && event.data == 'completion:status' ) {
                         if ( 
@@ -116,6 +115,7 @@ define(function(require) {
                              self.model.checkCompletionStatus();
                              $("."+self.model.attributes._parentId+" .embeddedLink-zoomin-button").removeClass("embeddedLink-zoomin-button-disable");
                         }
+
                     }
                 }, false);
 
