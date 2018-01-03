@@ -312,7 +312,13 @@ define(function(require) {
                     this.$('.embeddedLink-iframe').show();
                     this.$(".embeddedLink-description-container").show();
                 }
-                this.$('.embeddedLink-zoomin-button').show();
+                
+                // do not show pop-out button in ILT
+                if (this.model.get("_isPartOfVerticalBlockSlider")) {
+                    this.$('.embeddedLink-zoomin-button').hide();
+                }else {
+                    this.$('.embeddedLink-zoomin-button').show();
+                }
             }
         },
 
