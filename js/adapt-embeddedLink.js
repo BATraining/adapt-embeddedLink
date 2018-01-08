@@ -58,6 +58,21 @@ define(function(require) {
             };
 
             this.model.set('_hasPagination', this.model.get('_page').instructionSteps != undefined);
+            
+            // append component id to ETL content url querystring
+            var contentUrl = this.model.get("_source");
+            if (this.model.get("_imageSource")) {
+                contentUrl = this.model.get("_imageSource");
+            }
+            contentUrl += (contentUrl.indexOf("?") > 0) ? "&" : "?";
+            contentUrl += "componentId=" + this.model.get("_id");
+            
+             if (this.model.get("_imageSource")) {
+                 this.model.set("_imageSource", contentUrl);
+             } else {
+                 this.model.set("_source", contentUrl);
+             }
+            
         },
 
         postRender: function() {
@@ -105,28 +120,15 @@ define(function(require) {
             if (!this.model.get('_setContentCompletion')) {
                 var self = this;
                 window.addEventListener("message", function(event) {
-                    if ( typeof event.data != 'undefined' && event.data == 'completion:status' ) {
-                        if ( 
-                            typeof event.target.API != 'undefined' && typeof event.target.API.data != 'undefined' 
-                            && typeof event.target.API.data['cmi.core.lesson_location'] != 'undefined'
-                            && typeof self.model.attributes._parentId != 'undefined'
-                            && event.target.API.data['cmi.core.lesson_location'] == self.model.attributes._parentId
-                         ) {
-                             self.model.checkCompletionStatus();
-                             $("."+self.model.attributes._parentId+" .embeddedLink-zoomin-button").removeClass("embeddedLink-zoomin-button-disable");
+                    // Example ETL content postMessage:  {"complete":true,"componentId":"qwerty123"}  
+                    if (event.data.hasOwnProperty("complete") && event.data.hasOwnProperty("componentId")) { 
+                        if (event.data.complete == true && event.data.componentId == self.model.get("_id")) {
+                            self.model.checkCompletionStatus();
+                            $("." + self.model.get("_parentId") + " .embeddedLink-zoomin-button").removeClass("embeddedLink-zoomin-button-disable");
                         }
-
                     }
                 }, false);
 
-                this.$('.embeddedLink-iframe-holder').find('iframe').load(function() {
-                    self.$('.embeddedLink-iframe-holder').find('iframe').on('completion:status', function(evt, complationStatus) {
-                        if (complationStatus) {
-                            self.checkCompletionStatus();
-                            this.$(".embeddedLink-zoomin-button").removeClass("embeddedLink-zoomin-button-disable");
-                        }
-                    });
-                });
 
             } else {
                 if (Adapt.device.screenSize != 'large') {
@@ -310,7 +312,13 @@ define(function(require) {
                     this.$('.embeddedLink-iframe').show();
                     this.$(".embeddedLink-description-container").show();
                 }
-                this.$('.embeddedLink-zoomin-button').show();
+                
+                // do not show pop-out button in ILT
+                if (this.model.get("_isPartOfVerticalBlockSlider")) {
+                    this.$('.embeddedLink-zoomin-button').hide();
+                }else {
+                    this.$('.embeddedLink-zoomin-button').show();
+                }
             }
         },
 
@@ -512,11 +520,11 @@ define(function(require) {
         },
 
         checkCompletionStatus: function() {
-
+            
             if (!this.model.get('_isComplete')) {
                 this.setCompletionStatus();
                 this.$(".embeddedLink-zoomin-button").removeClass("embeddedLink-zoomin-button-disable");
-            }
+            }              
         }
 
     });
